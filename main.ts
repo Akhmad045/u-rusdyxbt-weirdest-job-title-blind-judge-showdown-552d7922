@@ -11,6 +11,12 @@ import { mkdirSync, writeFileSync } from "node:fs";
 // with a twist that lands on the first read.
 const ENTRY = "Professional Mourner for Funerals of Complete Strangers";
 
+// Second pass: guard the judge's 1–60 character gate so a future edit can
+// never silently ship an over-long title.
+if (ENTRY.length < 1 || ENTRY.length > 60) {
+  throw new Error(`entry must be 1–60 characters, got ${ENTRY.length}`);
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", ENTRY, "utf8");
 console.log(ENTRY);
